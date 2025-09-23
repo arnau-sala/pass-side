@@ -170,7 +170,7 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 
 - 🐛 **Reportar Errores**: [GitHub Issues](https://github.com/arnau-sala/pass-side/issues)
 - 💬 **Discusiones**: [GitHub Discussions](https://github.com/arnau-sala/pass-side/discussions)
-- 📧 **Email**: tu.email@ejemplo.com
+- 📧 **Email**: arnausalaaraujo@gmail.com
 
 ---
 

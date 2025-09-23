@@ -170,7 +170,7 @@ Having trouble? We're here to help!
 
 - 🐛 **Bug Reports**: [GitHub Issues](https://github.com/arnau-sala/pass-side/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/arnau-sala/pass-side/discussions)
-- 📧 **Email**: your.email@example.com
+- 📧 **Email**: arnausalaaraujo@gmail.com
 
 ---
 
