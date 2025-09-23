@@ -4,6 +4,8 @@
 
 A unique 1v1 strategic board game that combines **strategy, accuracy, and intelligence** in an original gameplay experience. Navigate your pieces across the board, eliminate opponents, and reach the goal to claim victory!
 
+## 🎮 **[► PLAY NOW](https://arnau-sala.github.io/pass-side)** 🎯
+
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Game](https://img.shields.io/badge/game-board%20strategy-orange.svg)
@@ -71,14 +73,14 @@ Move your pieces from your starting area to the opponent's goal area. Score poin
 
 | Mode | Board Size | Pieces | Target Score | Duration |
 |------|------------|--------|--------------|----------|
-| **Bullet** | 5×5 | 3 | 2 points | ~5-10 min |
-| **Classic** | 9×9 | 9 | 7 points | ~15-25 min |
-| **Marathon** | 13×11 | 15 | 12 points | ~30-45 min |
+| **Bullet** | 5×5 | 3 | 3 points | ~1-2 min |
+| **Classic** | 9×9 | 7 | 7 points | ~2-5 min |
+| **Marathon** | 13×11 | 8 | 8 points | ~3-8 min |
 
 ## 🎨 Customization
 
 ### Themes
-- **Dark Theme** (Default) - Sleek and modern
+- **Dark Theme** - Sleek and modern
 - **Light Theme** - Clean and minimalist
 
 ### Settings
@@ -176,4 +178,4 @@ Having trouble? We're here to help!
 
 **Ready to test your strategic skills?** 🎯 [Play Pass Side now!](https://arnau-sala.github.io/pass-side)
 
-*Made with ❤️ for strategy game enthusiasts*
+*Thank you for trusting this project and being part of our strategy gaming community*

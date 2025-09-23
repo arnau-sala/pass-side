@@ -4,6 +4,8 @@
 
 Un juego de mesa estratégico único 1 contra 1 que combina **estrategia, precisión e inteligencia** en una experiencia de juego original. ¡Navega tus fichas por el tablero, elimina oponentes y llega a la meta para reclamar la victoria!
 
+## 🎮 **[► JUGAR AHORA](https://arnau-sala.github.io/pass-side)** 🎯
+
 ![Versión](https://img.shields.io/badge/versión-1.0.0-blue.svg)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-green.svg)
 ![Juego](https://img.shields.io/badge/juego-estrategia%20tablero-orange.svg)
@@ -71,14 +73,14 @@ Mueve tus fichas desde tu área de inicio hasta el área de meta del oponente. S
 
 | Modo | Tamaño | Fichas | Puntos Objetivo | Duración |
 |------|--------|--------|-----------------|----------|
-| **Bala** | 5×5 | 3 | 2 puntos | ~5-10 min |
-| **Clásico** | 9×9 | 9 | 7 puntos | ~15-25 min |
-| **Maratón** | 13×11 | 15 | 12 puntos | ~30-45 min |
+| **Bala** | 5×5 | 3 | 3 puntos | ~1-2 min |
+| **Clásico** | 9×9 | 7 | 7 puntos | ~2-5 min |
+| **Maratón** | 13×11 | 8 | 8 puntos | ~3-8 min |
 
 ## 🎨 Personalización
 
 ### Temas
-- **Tema Oscuro** (Por defecto) - Elegante y moderno
+- **Tema Oscuro** - Elegante y moderno
 - **Tema Claro** - Limpio y minimalista
 
 ### Configuración
@@ -176,4 +178,4 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 
 **¿Listo para poner a prueba tus habilidades estratégicas?** 🎯 [¡Juega Pass Side ahora!](https://arnau-sala.github.io/pass-side)
 
-*Hecho con ❤️ para entusiastas de juegos de estrategia*
+*Gracias por confiar en este proyecto y ser parte de nuestra comunidad de juegos de estrategia*
