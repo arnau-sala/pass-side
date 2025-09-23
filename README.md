@@ -168,12 +168,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Having trouble? We're here to help!
 
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/yourusername/pass-side/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/yourusername/pass-side/discussions)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/arnau-sala/pass-side/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/arnau-sala/pass-side/discussions)
 - 📧 **Email**: your.email@example.com
 
 ---
 
-**Ready to test your strategic skills?** 🎯 [Play Pass Side now!](https://yourusername.github.io/pass-side)
+**Ready to test your strategic skills?** 🎯 [Play Pass Side now!](https://arnau-sala.github.io/pass-side)
 
 *Made with ❤️ for strategy game enthusiasts*
