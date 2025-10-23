@@ -28,7 +28,7 @@
                 </button>
                 
                 <button class="game-btn secondary" id="tutorialBtn">
-                    <span class="btn-text">INFORMACIÓN</span>
+                    <span class="btn-text">TUTORIAL</span>
                     <div class="btn-glow"></div>
                 </button>
                 
@@ -45,47 +45,13 @@
             
         </div>
         
-        <!-- Pantalla de Tutorial -->
-        <div class="tutorial-screen hidden" id="tutorialScreen">
-            <div class="tutorial-container">
-                <div class="tutorial-header">
-                    <h1>INFORMACIÓN DEL JUEGO</h1>
-                    <p class="tutorial-subtitle">Resuelve tus dudas sobre Pass Side</p>
-                </div>
-                
-                <div class="tutorial-options">
-                    <div class="tutorial-option" id="interactiveTutorial">
-                        <div class="option-icon">
-                            <img src="icons/tutorial-interactivo.png" alt="Tutorial Interactivo" />
-                        </div>
-                        <h3>Aprender Jugando</h3>
-                        <p>Simulaciones interactivas con mini-tableros</p>
-                    </div>
-                    
-                    <div class="tutorial-option" id="guideTutorial">
-                        <div class="option-icon">
-                            <img src="icons/tutorial-guia.png" alt="Guía del Juego" />
-                        </div>
-                        <h3>Manual de Juego</h3>
-                        <p>Información completa sobre reglas y estrategias</p>
-                    </div>
-                </div>
-                
-                <div class="tutorial-footer">
-                    <button class="game-btn secondary" id="backFromTutorial">
-                        <span class="btn-text">CANCELAR</span>
-                        <div class="btn-glow"></div>
-                    </button>
-                </div>
-            </div>
-        </div>
         
-        <!-- Pantalla de Tutorial Interactivo -->
+        <!-- Pantalla de Modos de Juego -->
         <div class="interactive-tutorial-screen hidden" id="interactiveTutorialScreen">
             <div class="tutorial-container">
                 <div class="tutorial-header">
                     <h1 id="tutorialTitle">OBJETIVO</h1>
-                    <p class="tutorial-subtitle" id="tutorialSubtitle" style="display: none;">Aprende a jugar Pass Side</p>
+                    <p class="tutorial-subtitle" id="tutorialSubtitle" style="display: none;"></p>
                 </div>
                 
                 <div class="tutorial-content">
@@ -98,10 +64,13 @@
                     <div class="tutorial-explanation">
                         <div class="explanation-step active" id="step1">
                             <div class="simple-text-content">
-                                <p>Pass Side es un juego de estrategia 1 vs 1</p>
-                                <p>Debes llevar tus fichas hasta la meta del lado contrario</p>
-                                <p>Elimina las fichas enemigas para frenar su avance</p>
-                                <p>Gana quien llegue primero a la puntuación objetivo</p>
+                                <p><strong>Pass Side</strong> es un juego de estrategia 1 vs 1 donde debes demostrar tu habilidad táctica.</p>
+                                
+                                <p>Tu objetivo principal es <strong>llevar tus fichas hasta la meta</strong> del lado contrario del tablero. Cada ficha que llegue a la meta te dará puntos.</p>
+                                
+                                <p>También puedes <strong>eliminar fichas del oponente</strong> para frenar su avance y ganar puntos adicionales.</p>
+                                
+                                <p>El primer jugador en alcanzar la <strong>puntuación objetivo</strong> gana la partida.</p>
                             </div>
                         </div>
                         
@@ -201,6 +170,41 @@
                             </div>
                         </div>
                         
+                        <!-- Paso 5: Modos de Juego -->
+                        <div class="explanation-step" id="step5">
+                            <div class="game-modes-content">
+                                <div class="game-mode-column">
+                                    <div class="mode-text">
+                                        <h3>Bala 5×5</h3>
+                                        <p>Partidas rápidas e intensas</p>
+                                    </div>
+                                    <div class="mode-image">
+                                        <img src="icons/tutorial-mode-bala.png" alt="Modo Bala" />
+                                    </div>
+                                </div>
+                                
+                                <div class="game-mode-column">
+                                    <div class="mode-text">
+                                        <h3>Clásico 9×9</h3>
+                                        <p>El modo más popular</p>
+                                    </div>
+                                    <div class="mode-image">
+                                        <img src="icons/tutorial-mode-classic.png" alt="Modo Clásico" />
+                                    </div>
+                                </div>
+                                
+                                <div class="game-mode-column">
+                                    <div class="mode-text">
+                                        <h3>Maratón 13×11</h3>
+                                        <p>Batallas épicas estratégicas</p>
+                                    </div>
+                                    <div class="mode-image">
+                                        <img src="icons/tutorial-mode-maraton.png" alt="Modo Maratón" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 
@@ -222,6 +226,9 @@
                     </button>
                     <button class="tutorial-step-btn" data-step="4" title="Puntuación">
                         <span class="step-icon tutorial-menu-puntuacion"></span>
+                    </button>
+                    <button class="tutorial-step-btn" data-step="5" title="Modos de Juego">
+                        <span class="step-icon tutorial-menu-game-modes"></span>
                     </button>
                         </div>
                         

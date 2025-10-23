@@ -7,6 +7,62 @@ let gameSettings = {
     boardSize: 'classic' // 'bala', 'classic', 'marathon'
 };
 
+// Variables para controlar funciones duplicadas
+let tutorialFunctionsInitialized = {
+    puntuacionTabs: false,
+    movementTabs: false,
+    tutorialTabs: false,
+    closeTutorial: false,
+    showTutorial: false
+};
+
+// Función para resetear el estado de las funciones del tutorial
+function resetTutorialFunctions() {
+    tutorialFunctionsInitialized = {
+        puntuacionTabs: false,
+        movementTabs: false,
+        tutorialTabs: false,
+        closeTutorial: false,
+        showTutorial: false
+    };
+}
+
+// Función para limpiar el estado de todas las pestañas del tutorial
+function clearAllTutorialTabs() {
+    // Limpiar pestañas de zonas (paso 2)
+    const tutorialTabs = document.querySelectorAll('.tutorial-tab');
+    tutorialTabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+    
+    // Limpiar pestañas de movimientos (paso 3)
+    const movementTabs = document.querySelectorAll('.movement-tab');
+    movementTabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+    
+    // Limpiar contenido de información
+    const zoneInfo = document.getElementById('zoneInfo');
+    if (zoneInfo) {
+        zoneInfo.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
+    }
+    
+    const movementInfo = document.getElementById('movementInfo');
+    if (movementInfo) {
+        movementInfo.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
+    }
+    
+    const puntuacionInfo = document.getElementById('puntuacionInfo');
+    if (puntuacionInfo) {
+        puntuacionInfo.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
+    }
+    
+    // Limpiar resaltado del tablero
+    clearTutorialHighlight();
+}
+
 // Sistema de distribuciones ponderadas
 const distributions = [
     { name: "Centro Puro", pattern: "xooooooox", weight: 0.20 },
@@ -582,9 +638,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -652,6 +725,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -675,9 +756,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -907,9 +1005,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -977,6 +1092,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -1000,9 +1123,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -1208,9 +1348,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -1278,6 +1435,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -1301,9 +1466,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -1461,9 +1643,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -1531,6 +1730,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -1554,9 +1761,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -1900,9 +2124,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -1970,6 +2211,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -1993,9 +2242,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -2343,9 +2609,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -2413,6 +2696,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -2436,9 +2727,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -2860,9 +3168,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -2930,6 +3255,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -2953,9 +3286,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -4595,9 +4945,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -4665,6 +5032,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -4688,9 +5063,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -4783,9 +5175,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -4853,6 +5262,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -4876,9 +5293,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -4982,9 +5416,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -5052,6 +5503,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -5075,9 +5534,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -5343,9 +5819,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -5413,6 +5906,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -5436,9 +5937,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -5531,9 +6049,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -5601,6 +6136,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -5624,9 +6167,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -5796,9 +6356,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -5866,6 +6443,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -5889,9 +6474,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -6009,9 +6611,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -6079,6 +6698,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -6102,9 +6729,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -6457,9 +7101,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -6527,6 +7188,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -6550,9 +7219,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -6682,9 +7368,6 @@ const menuBtn = document.getElementById('menuBtn');
 const cancelDifficulty = document.getElementById('cancelDifficulty');
 
 // Elementos del tutorial
-const interactiveTutorial = document.getElementById('interactiveTutorial');
-const guideTutorial = document.getElementById('guideTutorial');
-const backFromTutorial = document.getElementById('backFromTutorial');
 
 // Elementos del tutorial interactivo
 const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
@@ -6712,7 +7395,6 @@ function playSound(soundType) {
 function showScreen(screenToShow) {
     // Ocultar todas las pantallas
     startScreen.classList.add('hidden');
-    tutorialScreen.classList.add('hidden');
     interactiveTutorialScreen.classList.add('hidden');
     optionsScreen.classList.add('hidden');
     gameScreen.classList.add('hidden');
@@ -6944,8 +7626,16 @@ function backToMenu() {
 
 // Funciones del tutorial
 function showTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.showTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.showTutorial = true;
+    
     clearAllFormationModals();
-    showScreen(tutorialScreen);
+    startInteractiveTutorial();
     playSound('menu');
 }
 
@@ -6958,9 +7648,12 @@ function startInteractiveTutorial() {
 
 // Variables del tutorial interactivo
 let currentTutorialStep = 1;
-    const totalTutorialSteps = 4;
+    const totalTutorialSteps = 5;
 
 function initializeInteractiveTutorial() {
+    // Resetear el estado de las funciones del tutorial
+    resetTutorialFunctions();
+    
     currentTutorialStep = 1;
     
     // Ocultar el tablero inmediatamente
@@ -7141,6 +7834,9 @@ function createTutorialBoard() {
 }
 
 function updateTutorialStep() {
+    // Limpiar todas las pestañas antes de cambiar de paso
+    clearAllTutorialTabs();
+    
     // Ocultar todos los pasos
     document.querySelectorAll('.explanation-step').forEach(step => {
         step.classList.remove('active');
@@ -7180,6 +7876,12 @@ function updateTutorialStep() {
         tutorialTitle.textContent = 'PUNTUACIÓN';
         tutorialTitle.setAttribute('data-step', '4');
         tutorialSubtitle.style.display = 'none';
+    } else if (currentTutorialStep === 5) {
+        tutorialContent.classList.add('text-only');
+        tutorialContent.classList.remove('movements-only');
+        tutorialTitle.textContent = 'MODOS DE JUEGO';
+        tutorialTitle.setAttribute('data-step', '5');
+        tutorialSubtitle.style.display = 'none';
     } else {
         tutorialContent.classList.remove('text-only', 'movements-only');
         tutorialTitle.textContent = 'TUTORIAL INTERACTIVO';
@@ -7211,6 +7913,9 @@ function updateTutorialStep() {
         setTimeout(() => {
             initializePuntuacionTabs();
         }, 100);
+    } else if (currentTutorialStep === 5) {
+        // En el paso 5 (modos de juego), ocultar el tablero
+        tutorialBoard.style.display = 'none';
     } else {
         // En los demás pasos, mostrar el tablero interactivo
         tutorialBoard.style.display = 'block';
@@ -7333,9 +8038,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -7403,6 +8125,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -7426,9 +8156,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -7512,9 +8259,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -7582,6 +8346,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -7605,9 +8377,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -7688,9 +8477,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -7758,6 +8564,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -7781,9 +8595,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -7906,9 +8737,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -7976,6 +8824,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -7999,9 +8855,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -8088,9 +8961,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -8158,6 +9048,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -8181,9 +9079,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -8301,20 +9216,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Event listeners del tutorial
-    interactiveTutorial.addEventListener('click', function() {
-        audioManager.playButtonClick();
-        startInteractiveTutorial();
-    });
-    guideTutorial.addEventListener('click', function() {
-        audioManager.playButtonClick();
-        startGuideTutorial();
-    });
-    backFromTutorial.addEventListener('click', function() {
-        console.log('Botón CANCELAR clickeado');
-        audioManager.playButtonClick();
-        showScreen(startScreen);
-        playSound('back');
-    });
     
     // Event listeners del tutorial interactivo
     navPrev.addEventListener('click', function() {
@@ -8463,9 +9364,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -8533,6 +9451,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -8556,9 +9482,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -8701,9 +9644,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -8771,6 +9731,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -8794,9 +9762,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -8915,9 +9900,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -8985,6 +9987,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -9008,9 +10018,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -9294,9 +10321,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -9364,6 +10408,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -9387,9 +10439,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -9595,9 +10664,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -9665,6 +10751,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -9688,9 +10782,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -9834,9 +10945,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -9904,6 +11032,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -9927,9 +11063,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -10190,7 +11343,25 @@ function getZoneInfoByType(zone) {
 // Inicializar event listeners para las pestañas
 function initializeTutorialTabs() {
     const tabs = document.querySelectorAll('.tutorial-tab');
+    
+    // Limpiar estado previo de las pestañas
     tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+    
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+    
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.tutorialTabs = true;
+    
+    tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             // Si la pestaña ya está activa, deseleccionarla
             if (tab.classList.contains('active')) {
@@ -10252,9 +11423,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -10322,6 +11510,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -10345,9 +11541,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -10564,11 +11777,28 @@ function initializeMovementTabs() {
     
     if (!movementInfoElement) return;
     
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+    
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+    
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.movementTabs = true;
+    
     // Mostrar mensaje por defecto
     movementInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
     
     // Agregar event listeners a las pestañas
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             // Si la pestaña ya está activa, deseleccionarla
             if (tab.classList.contains('active')) {
@@ -10608,9 +11838,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -10678,6 +11925,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -10701,9 +11956,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -10866,9 +12138,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -10936,6 +12225,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -10959,9 +12256,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -11042,9 +12356,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -11112,6 +12443,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -11135,9 +12474,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -11399,9 +12755,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -11469,6 +12842,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -11492,9 +12873,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -11714,9 +13112,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');
@@ -11784,6 +13199,14 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
+    // Verificar si ya se ha ejecutado
+    if (tutorialFunctionsInitialized.closeTutorial) {
+        return;
+    }
+    
+    // Marcar como ejecutado
+    tutorialFunctionsInitialized.closeTutorial = true;
+    
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
@@ -11807,9 +13230,26 @@ function initializePuntuacionTabs() {
 
     if (!puntuacionInfoElement) return;
 
+    // Limpiar estado previo de las pestañas
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.removeAttribute('data-listeners-added');
+    });
+
+    // Verificar si ya se han agregado event listeners
+    if (tabs.length > 0 && tabs[0].hasAttribute('data-listeners-added')) {
+        return;
+    }
+
+    // Marcar como inicializado
+    tutorialFunctionsInitialized.puntuacionTabs = true;
+
     puntuacionInfoElement.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
 
     tabs.forEach(tab => {
+        // Marcar que se han agregado event listeners
+        tab.setAttribute('data-listeners-added', 'true');
+        
         tab.addEventListener('click', () => {
             if (tab.classList.contains('active')) {
                 tab.classList.remove('active');

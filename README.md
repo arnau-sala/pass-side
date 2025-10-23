@@ -152,6 +152,10 @@ We welcome contributions! Here's how you can help:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 🎨 Icons & Assets
+
+- **Game Modes Icon**: <a target="_blank" href="https://icons8.com/icon/cGyNxHk0jrJM/game-controller">Control</a> icono de <a target="_blank" href="https://icons8.com">Icons8</a>
+
 ## 🎉 Acknowledgments
 
 - **Game Design** - Original strategic board game concept
