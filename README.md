@@ -4,7 +4,7 @@
 
 A unique 1v1 strategic board game that combines **strategy, accuracy, and intelligence** in an original gameplay experience. Navigate your pieces across the board, eliminate opponents, and reach the goal to claim victory!
 
-## 🎮 **[► PLAY NOW](https://arnau-sala.github.io/pass-side)** 🎯
+## 🎮 **[► PLAY NOW](https://arnau-sala.github.io/pass-side)** 🎯 (Still under development)
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
