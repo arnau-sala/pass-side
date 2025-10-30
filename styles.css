@@ -13,6 +13,31 @@ body {
     height: 100vh;
 }
 
+/* Desactivar selección de texto globalmente en la app (excepto campos editables) */
+.game-container, .game-container * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Permitir selección/edición en inputs y textareas */
+input, textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Imágenes y SVG: sin selección ni arrastre */
+img, svg {
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .game-container {
     position: relative;
     width: 100vw;
@@ -26,14 +51,16 @@ body {
 /* Pantalla de inicio */
 .start-screen {
     text-align: center;
-    animation: fadeInSmooth 1.2s ease-out;
+    animation: fadeInOpacity 800ms ease-out both; /* solo opacidad, sin desplazamiento */
     position: relative;
     z-index: 10;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* subir contenido */
     align-items: center;
     height: 100vh;
+    padding-top: 6.5vh; /* baja ligeramente título y subtítulo */
+    overflow-y: hidden; /* evitar scroll vertical */
 }
 
 .game-title h1 {
@@ -47,6 +74,13 @@ body {
     background-clip: text;
     animation: gradientShift 3s ease-in-out infinite;
     text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+    /* Animación de entrada desde arriba */
+    animation: gradientShift 3s ease-in-out infinite, slideFromTop 600ms ease-out 120ms both;
+    /* Evitar selección de texto */
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
 }
 
 .subtitle {
@@ -54,6 +88,13 @@ body {
     color: #cccccc;
     margin-bottom: 2.5rem;
     font-weight: 400;
+    /* Animación de entrada desde arriba (igual que los botones) */
+    animation: slideFromTop 600ms ease-out 120ms both;
+    /* Evitar selección de texto */
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
 }
 
 @keyframes gradientShift {
@@ -61,14 +102,64 @@ body {
     50% { background-position: 100% 50%; }
 }
 
+/* Fade de opacidad sin movimiento para el contenedor */
+@keyframes fadeInOpacity {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Animaciones de entrada para la pantalla de inicio */
+@keyframes slideFromTop {
+    0% { opacity: 0; transform: translateY(-24px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideFromBottom {
+    0% { opacity: 0; transform: translateY(24px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
 /* Botones del menú */
 .menu-buttons {
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    flex-direction: row; /* en fila */
+    gap: 1rem;
     align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem; /* subir más los botones */
     margin-bottom: 2rem;
+    animation: slideFromTop 600ms ease-out 120ms both; /* entra desde arriba, tras el título */
 }
+
+/* Unificar tamaño de botones en la pantalla de inicio */
+.menu-buttons .game-btn {
+    min-width: 200px;
+}
+
+/* Ilustración principal debajo del menú */
+.start-illustration {
+    margin-top: auto; /* empuja la imagen hacia la parte inferior */
+    margin-bottom: 8vh; /* súbela un poco dejando más margen inferior */
+    animation: slideFromBottom 700ms ease-out 220ms both; /* tablero desde abajo */
+    width: 960px;
+    max-width: 100%;
+    height: 58vh; /* evita scroll vertical */
+    background-image: url('icons/main-3D.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -webkit-touch-callout: none;
+    pointer-events: none; /* tratarlo como fondo: no clics ni arrastres */
+    touch-action: none;
+}
+
+/* (Se eliminó el <img>; ahora es fondo del contenedor) */
 
 .game-btn {
     position: relative;
@@ -85,6 +176,11 @@ body {
     transition: all 0.3s ease;
     overflow: hidden;
     min-width: 200px;
+    /* Evitar selección de texto en botones */
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
 }
 
 .game-btn.primary {
@@ -129,17 +225,54 @@ body {
 .btn-text {
     position: relative;
     z-index: 2;
+    /* Evitar selección de texto explícita en el span */
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
 }
 
 /* Información de versión */
 .version-info {
     position: fixed;
-    bottom: 1rem;
-    right: 1rem;
+    bottom: 1.25rem; /* ligeramente más arriba */
+    right: 1.25rem; /* ligeramente hacia la izquierda */
     font-size: 0.8rem;
     color: #666666;
     z-index: 1000;
     pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+}
+
+/* Feedback en formato texto, estilo similar a versión */
+.feedback-info {
+    position: fixed;
+    left: 1.25rem; /* ligeramente a la derecha */
+    bottom: 1.25rem; /* ligeramente más arriba */
+    font-size: 0.8rem;
+    color: #666666;
+    z-index: 1000;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+}
+
+.feedback-info a {
+    color: inherit;
+    text-decoration: none;
+    pointer-events: auto;
+}
+
+.feedback-info a:hover {
+    text-decoration: underline;
+}
+
+.game-container.light-theme .feedback-info {
+    color: #2c3e50;
 }
 
 /* Pantalla de opciones */

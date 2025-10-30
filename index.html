@@ -6,12 +6,26 @@
     <title>Pass Side</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#00d4ff">
+    <meta name="theme-color" content="#0a0a0a">
 </head>
 <body>
     <div class="game-container">
         <!-- Versión -->
         <div class="version-info">
             <p>Versión 1.0.0</p>
+        </div>
+        
+        <!-- Feedback como texto (formato similar a versión) -->
+        <div class="feedback-info">
+            <a href="https://github.com/arnau-sala/pass-side/issues/new?labels=feedback&title=%5BFeedback%5D&body=Describe%20tu%20sugerencia%20o%20problema%20aqu%C3%AD."
+               target="_blank" rel="noopener noreferrer" aria-label="Enviar feedback">
+                Feedback
+            </a>
         </div>
         
         <!-- Pantalla de inicio -->
@@ -42,6 +56,9 @@
                     <div class="btn-glow"></div>
                 </button>
             </div>
+            
+            <!-- Ilustración principal 3D debajo de los botones -->
+            <div class="start-illustration" aria-hidden="true"></div>
             
         </div>
         
@@ -393,9 +410,6 @@
                         <div class="header-buttons">
                             <button class="game-btn secondary small" id="menuBtn">
                                 <span class="btn-text">MENÚ</span>
-                            </button>
-                            <button class="game-btn secondary small" id="endGameBtn">
-                                <span class="btn-text">FINALIZAR</span>
                             </button>
                         </div>
                     </div>

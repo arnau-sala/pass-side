@@ -88,6 +88,11 @@ Mueve tus fichas desde tu área de inicio hasta el área de meta del oponente. S
 - Personalizar nombre del jugador
 - Ajustar preferencias visuales
 
+## ⚠️ Estado de Funciones (En Desarrollo)
+
+- Cambio de tema (oscuro/claro): en desarrollo, puede no aplicarse correctamente.
+- Desactivar efectos de sonido: en desarrollo, puede no tener efecto en todos los casos.
+
 ## 🛠️ Detalles Técnicos
 
 ### Construido Con

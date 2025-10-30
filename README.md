@@ -88,6 +88,11 @@ Move your pieces from your starting area to the opponent's goal area. Score poin
 - Customize player name
 - Adjust visual preferences
 
+## ⚠️ Feature Status (Work in Progress)
+
+- Theme switching (dark/light): work in progress, may not apply correctly yet.
+- Disabling sound effects: work in progress, may not take effect in all cases.
+
 ## 🛠️ Technical Details
 
 ### Built With

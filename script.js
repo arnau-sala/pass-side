@@ -725,27 +725,28 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
-    // Verificar si ya se ha ejecutado
-    if (tutorialFunctionsInitialized.closeTutorial) {
-        return;
-    }
-    
-    // Marcar como ejecutado
+    // No salgas temprano: asegura volver al inicio siempre
     tutorialFunctionsInitialized.closeTutorial = true;
-    
+
     const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
     if (interactiveTutorialScreen) {
         interactiveTutorialScreen.classList.add('hidden');
     }
-    
+
     // Limpiar el estado del tutorial
     currentTutorialStep = 1;
     updateTutorialStep();
-    
-    // Mostrar el menú de selección de tutorial
-    const tutorialScreen = document.getElementById('tutorialScreen');
-    if (tutorialScreen) {
-        tutorialScreen.classList.remove('hidden');
+
+    // Cerrar overlays/modales si existieran
+    const difficultyModal = document.getElementById('difficultyModal');
+    if (difficultyModal) difficultyModal.classList.add('hidden');
+
+    // Volver al inicio de forma robusta
+    if (typeof showScreen === 'function' && typeof startScreen !== 'undefined') {
+        showScreen(startScreen);
+    } else {
+        const startScreenEl = document.getElementById('startScreen');
+        if (startScreenEl) startScreenEl.classList.remove('hidden');
     }
 }
 
@@ -9233,7 +9234,18 @@ document.addEventListener('DOMContentLoaded', function() {
     if (finishTutorial) {
         finishTutorial.addEventListener('click', function() {
             audioManager.playButtonClick();
-            closeInteractiveTutorial();
+            // Forzar navegación al inicio de forma directa y segura
+            const interactiveTutorialScreen = document.getElementById('interactiveTutorialScreen');
+            if (interactiveTutorialScreen) {
+                interactiveTutorialScreen.classList.add('hidden');
+            }
+            currentTutorialStep = 1;
+            if (typeof showScreen === 'function' && typeof startScreen !== 'undefined') {
+                showScreen(startScreen);
+            } else {
+                const startScreenEl = document.getElementById('startScreen');
+                if (startScreenEl) startScreenEl.classList.remove('hidden');
+            }
         });
     }
     
@@ -9255,14 +9267,7 @@ document.addEventListener('DOMContentLoaded', function() {
         backFromInteractiveTutorialMenu();
     });
     
-    // Botón temporal para finalizar partida (solo para pruebas)
-    const endGameBtn = document.getElementById('endGameBtn');
-    if (endGameBtn) {
-        endGameBtn.addEventListener('click', function() {
-            audioManager.playButtonClick();
-            endGame('blue', 'Final Manual');
-        });
-    }
+    // (El botón FINALIZAR ha sido eliminado)
     
     
     // Controles de opciones
