@@ -45,6 +45,13 @@ Un juego de mesa estratégico único 1 contra 1 que combina **estrategia, precis
    - Simplemente abre `index.html` en tu navegador web
    - ¡No requiere instalación ni dependencias!
 
+3. **Servidor local (opcional)**
+   - Para una experiencia más fluida:
+     ```bash
+     npx serve -s -l 5173
+     ```
+   - Luego abre `http://localhost:5173`
+
 3. **¡Empieza a jugar!**
    - Haz clic en "JUGAR" para iniciar una nueva partida
    - Selecciona tu modo y dificultad preferidos
@@ -93,6 +100,10 @@ Mueve tus fichas desde tu área de inicio hasta el área de meta del oponente. S
 - Cambio de tema (oscuro/claro): en desarrollo, puede no aplicarse correctamente.
 - Desactivar efectos de sonido: en desarrollo, puede no tener efecto en todos los casos.
 
+Notas:
+- En producción se silencian los logs de depuración (no se muestran en consola).
+- Texto e imágenes no son seleccionables para mejorar la UX.
+
 ## 🛠️ Detalles Técnicos
 
 ### Construido Con
@@ -105,6 +116,11 @@ Mueve tus fichas desde tu área de inicio hasta el área de meta del oponente. S
 - **Almacenamiento Local** - Guarda las preferencias del jugador
 - **Código Modular** - Arquitectura limpia y mantenible
 - **Compatible Multi-navegador** - Funciona en todos los navegadores modernos
+
+### Meta e Iconos
+- Favicon: `icons/favicon-16.png`, `icons/favicon-32.png`
+- Apple Touch Icon: `icons/apple-touch-icon.png`
+- Safari pinned tab: `icons/safari-pinned-tab.svg`
 
 ## 📱 Compatibilidad de Navegadores
 
@@ -176,6 +192,7 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 ¿Tienes problemas? ¡Estamos aquí para ayudar!
 
 - 🐛 **Reportar Errores**: [GitHub Issues](https://github.com/arnau-sala/pass-side/issues)
+- 💬 **Feedback**: Usa el enlace “Feedback” fijo abajo a la izquierda en la app (abre un issue pre-rellenado)
 - 💬 **Discusiones**: [GitHub Discussions](https://github.com/arnau-sala/pass-side/discussions)
 - 📧 **Email**: arnausalaaraujo@gmail.com
 

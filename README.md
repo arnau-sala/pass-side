@@ -45,6 +45,13 @@ A unique 1v1 strategic board game that combines **strategy, accuracy, and intell
    - Simply open `index.html` in your web browser
    - No installation or dependencies required!
 
+3. **Run a local server (optional)**
+   - For a smoother experience:
+     ```bash
+     npx serve -s -l 5173
+     ```
+   - Then open `http://localhost:5173`
+
 3. **Start playing**
    - Click "JUGAR" to start a new game
    - Select your preferred mode and difficulty
@@ -93,6 +100,10 @@ Move your pieces from your starting area to the opponent's goal area. Score poin
 - Theme switching (dark/light): work in progress, may not apply correctly yet.
 - Disabling sound effects: work in progress, may not take effect in all cases.
 
+Notes:
+- A global debug silencer is enabled in production (console logs hidden).
+- Text and images are non-selectable to improve UX.
+
 ## 🛠️ Technical Details
 
 ### Built With
@@ -105,6 +116,11 @@ Move your pieces from your starting area to the opponent's goal area. Score poin
 - **Local Storage** - Saves player preferences
 - **Modular Code** - Clean and maintainable architecture
 - **Cross-browser Compatible** - Works in all modern browsers
+
+### Meta & Icons
+- Favicon: `icons/favicon-16.png`, `icons/favicon-32.png`
+- Apple Touch Icon: `icons/apple-touch-icon.png`
+- Safari pinned tab: `icons/safari-pinned-tab.svg`
 
 ## 📱 Browser Compatibility
 
@@ -180,6 +196,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Having trouble? We're here to help!
 
 - 🐛 **Bug Reports**: [GitHub Issues](https://github.com/arnau-sala/pass-side/issues)
+- 💬 **Feedback**: Use the “Feedback” link fixed at the bottom-left in the app (opens a prefilled issue)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/arnau-sala/pass-side/discussions)
 - 📧 **Email**: arnausalaaraujo@gmail.com
 

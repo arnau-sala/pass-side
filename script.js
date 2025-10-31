@@ -1,4 +1,13 @@
 ﻿// Variables globales
+// Desactivar logs de depuración en producción
+const DEBUG = false;
+if (!DEBUG) {
+    try {
+        console.log = function() {};
+        console.debug = function() {};
+        console.info = function() {};
+    } catch(_) {}
+}
 let gameSettings = {
     soundEffects: true,
     theme: 'dark', // 'dark' o 'light'
@@ -197,16 +206,32 @@ function factorial(n) {
 const audioManager = {
     // Contexto de audio
     audioContext: null,
+    masterGain: null,
     
     // Inicializar el sistema de audio
     init() {
         try {
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            // Crear nodo maestro para controlar mute global del AudioContext
+            this.masterGain = this.audioContext.createGain();
+            this.masterGain.gain.value = 1;
+            this.masterGain.connect(this.audioContext.destination);
             
             // Verificar que los archivos de trompeta se cargan correctamente
             this.checkAudioFiles();
         } catch (e) {
             console.log('AudioContext no soportado:', e);
+        }
+    },
+
+    setMasterMuted(isMuted) {
+        if (!this.audioContext || !this.masterGain) return;
+        try {
+            const target = isMuted ? 0.00001 : 1;
+            this.masterGain.gain.cancelScheduledValues(this.audioContext.currentTime);
+            this.masterGain.gain.setTargetAtTime(target, this.audioContext.currentTime, 0.02);
+        } catch(_) {
+            this.masterGain.gain.value = isMuted ? 0 : 1;
         }
     },
     
@@ -253,7 +278,7 @@ const audioManager = {
                 
                 // Conectar los nodos
                 oscillator.connect(gainNode);
-                gainNode.connect(this.audioContext.destination);
+                gainNode.connect(this.masterGain);
                 
                 // Reproducir el sonido
                 oscillator.start(this.audioContext.currentTime);
@@ -297,7 +322,7 @@ const audioManager = {
                 oscillator1.connect(gainNode);
                 oscillator2.connect(gainNode);
                 gainNode.connect(filter);
-                filter.connect(this.audioContext.destination);
+                filter.connect(this.masterGain);
                 
                 // Reproducir el sonido
                 oscillator1.start(this.audioContext.currentTime);
@@ -334,7 +359,7 @@ const audioManager = {
                     
                     // Conectar los nodos
                     oscillator.connect(gainNode);
-                    gainNode.connect(this.audioContext.destination);
+                    gainNode.connect(this.masterGain);
                     
                     // Reproducir la nota
                     oscillator.start(this.audioContext.currentTime + index * noteDuration);
@@ -370,7 +395,7 @@ const audioManager = {
                     
                     // Conectar los nodos
                     oscillator.connect(gainNode);
-                    gainNode.connect(this.audioContext.destination);
+                    gainNode.connect(this.masterGain);
                     
                     // Reproducir la nota
                     oscillator.start(this.audioContext.currentTime + index * noteDuration);
@@ -430,7 +455,7 @@ const audioManager = {
         oscillator1.connect(gainNode);
         oscillator2.connect(gainNode);
         gainNode.connect(filter);
-        filter.connect(this.audioContext.destination);
+        filter.connect(this.masterGain);
         
         // Reproducir
         oscillator1.start(this.audioContext.currentTime);
@@ -470,7 +495,7 @@ const audioManager = {
         oscillator1.connect(gainNode);
         oscillator2.connect(gainNode);
         gainNode.connect(filter);
-        filter.connect(this.audioContext.destination);
+        filter.connect(this.masterGain);
         
         // Reproducir
         oscillator1.start(this.audioContext.currentTime);
@@ -541,7 +566,7 @@ const audioManager = {
                     // Conectar
                     oscillator.connect(gainNode);
                     gainNode.connect(filter);
-                    filter.connect(this.audioContext.destination);
+                    filter.connect(this.masterGain);
                     
                     // Reproducir
                     oscillator.start(currentTime);
@@ -616,7 +641,7 @@ const audioManager = {
                     // Conectar
                     oscillator.connect(gainNode);
                     gainNode.connect(filter);
-                    filter.connect(this.audioContext.destination);
+                    filter.connect(this.masterGain);
                     
                     // Reproducir
                     oscillator.start(currentTime);
@@ -1093,8 +1118,8 @@ function getPuntuacionInfoByType(puntuacion) {
 
 // Función para cerrar el tutorial interactivo
 function closeInteractiveTutorial() {
-    // Verificar si ya se ha ejecutado
-    if (tutorialFunctionsInitialized.closeTutorial) {
+    // Verificar si ya se ha ejecutado (defensivo si no existe el objeto)
+    if (!tutorialFunctionsInitialized || tutorialFunctionsInitialized.closeTutorial) {
         return;
     }
     
@@ -5386,18 +5411,26 @@ function cleanupInconsistentPieces() {
     // Solo limpiar fichas que han estado eliminando por más de 500ms
     // Esto permite que las animaciones normales se completen
     const now = Date.now();
+
+    // Validaciones defensivas
+    if (!gameState || !gameState.board || !Array.isArray(gameState.board)) return;
+    const rows = gameState.board.length;
+    const cols = rows > 0 && Array.isArray(gameState.board[0]) ? gameState.board[0].length : 0;
+    if (rows === 0 || cols === 0) return;
     
-    for (let r = 0; r < BOARD_ROWS; r++) {
-        for (let c = 0; c < BOARD_COLS; c++) {
-            const cell = gameState.board[r][c];
-            if (cell.piece && cell.piece.eliminating) {
+    for (let r = 0; r < rows; r++) {
+        const rowRef = gameState.board[r];
+        if (!Array.isArray(rowRef)) continue;
+        for (let c = 0; c < cols; c++) {
+            const cell = rowRef[c];
+            if (!cell || !cell.piece) continue;
+            if (cell.piece.eliminating) {
                 // Si no tiene timestamp, agregarlo
                 if (!cell.piece.eliminatingStartTime) {
                     cell.piece.eliminatingStartTime = now;
-                }
-                // Si ha estado eliminando por más de 500ms, limpiarla
-                else if (now - cell.piece.eliminatingStartTime > 500) {
-                    gameState.board[r][c].piece = null;
+                } else if (now - cell.piece.eliminatingStartTime > 500) {
+                    // Si ha estado eliminando por más de 500ms, limpiarla
+                    rowRef[c].piece = null;
                     needsUpdate = true;
                 }
             }
@@ -7898,22 +7931,25 @@ function updateTutorialStep() {
         // En el paso 2 (tablero), mostrar el tablero clásico en el contenedor del tablero
         tutorialBoard.style.display = 'block';
         createTutorialClassicBoard();
-        // Inicializar pestañas después de crear el tablero
-        setTimeout(() => {
-            initializeTutorialTabs();
-        }, 100);
+        // Mensaje por defecto en el área de contenido
+        const zoneInfo = document.getElementById('zoneInfo');
+        if (zoneInfo) {
+            zoneInfo.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
+        }
     } else if (currentTutorialStep === 3) {
         // En el paso 3 (movimientos), ocultar el tablero y inicializar pestañas
         tutorialBoard.style.display = 'none';
-        setTimeout(() => {
-            initializeMovementTabs();
-        }, 100);
+        const movementInfo = document.getElementById('movementInfo');
+        if (movementInfo) {
+            movementInfo.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
+        }
     } else if (currentTutorialStep === 4) {
         // En el paso 4 (puntuación), ocultar el tablero e inicializar pestañas de puntuación
         tutorialBoard.style.display = 'none';
-        setTimeout(() => {
-            initializePuntuacionTabs();
-        }, 100);
+        const puntuacionInfo = document.getElementById('puntuacionInfo');
+        if (puntuacionInfo) {
+            puntuacionInfo.innerHTML = '<p style="color: #cccccc; font-style: italic; text-align: center; background: none; border: none; padding: 0; margin: 0;">Selecciona una pestaña para obtener más información</p>';
+        }
     } else if (currentTutorialStep === 5) {
         // En el paso 5 (modos de juego), ocultar el tablero
         tutorialBoard.style.display = 'none';
@@ -9168,6 +9204,20 @@ function getPuntuacionInfoByType(puntuacion) {
 function updateSoundEffects() {
     gameSettings.soundEffects = soundEffectsCheckbox.checked;
     console.log('Efectos de sonido:', gameSettings.soundEffects ? 'activados' : 'desactivados');
+
+    // Silenciar/activar todos los elementos <audio>
+    const mediaEls = document.querySelectorAll('audio, video');
+    mediaEls.forEach(el => {
+        el.muted = !gameSettings.soundEffects;
+        if (!gameSettings.soundEffects) {
+            try { el.pause(); } catch (_) {}
+        }
+    });
+
+    // Aplicar mute global al AudioContext vía masterGain (más fiable que suspender)
+    if (audioManager && audioManager.audioContext) {
+        audioManager.setMasterMuted(!gameSettings.soundEffects);
+    }
 }
 
 // Event listeners
@@ -9248,6 +9298,65 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Delegación de eventos para pestañas del tutorial (robusto ante reentradas)
+    // Paso 2: pestañas de zonas (tutorial-tab)
+    const step2 = document.getElementById('step2');
+    if (step2 && !step2.hasAttribute('data-delegation-attached')) {
+        step2.setAttribute('data-delegation-attached', 'true');
+        step2.addEventListener('click', (e) => {
+            const tab = e.target.closest('.tutorial-tab');
+            if (!tab || !step2.contains(tab)) return;
+            const tabs = step2.querySelectorAll('.tutorial-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const zone = tab.getAttribute('data-zone');
+            // Usa el flujo existente del tutorial para actualizar info y highlight
+            if (typeof highlightZoneFromTab === 'function') {
+                highlightZoneFromTab(zone);
+            } else {
+                const zoneInfoEl = document.getElementById('zoneInfo');
+                if (zoneInfoEl && typeof getZoneInfoByType === 'function') {
+                    const zi = getZoneInfoByType(zone);
+                    zoneInfoEl.innerHTML = (zi && zi.content) ? zi.content : '<p style="color:#ccc;text-align:center;">Contenido no disponible</p>';
+                }
+            }
+        });
+    }
+
+    // Paso 3: pestañas de movimientos (movement-tab)
+    const step3 = document.getElementById('step3');
+    if (step3 && !step3.hasAttribute('data-delegation-attached')) {
+        step3.setAttribute('data-delegation-attached', 'true');
+        step3.addEventListener('click', (e) => {
+            const tab = e.target.closest('.movement-tab');
+            if (!tab || !step3.contains(tab)) return;
+            const tabs = step3.querySelectorAll('.movement-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const movement = tab.getAttribute('data-movement');
+            if (typeof showMovementInfo === 'function') {
+                showMovementInfo(movement);
+            }
+        });
+    }
+
+    // Paso 4: pestañas de puntuación (movement-tab en #step4)
+    const step4 = document.getElementById('step4');
+    if (step4 && !step4.hasAttribute('data-delegation-attached')) {
+        step4.setAttribute('data-delegation-attached', 'true');
+        step4.addEventListener('click', (e) => {
+            const tab = e.target.closest('.movement-tab');
+            if (!tab || !step4.contains(tab)) return;
+            const tabs = step4.querySelectorAll('.movement-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const key = tab.getAttribute('data-movement');
+            if (typeof showPuntuacionInfo === 'function') {
+                showPuntuacionInfo(key);
+            }
+        });
+    }
     
     // Event listeners para botones de pasos
     const stepButtons = document.querySelectorAll('.tutorial-step-btn');
@@ -9262,10 +9371,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    backFromInteractiveTutorial.addEventListener('click', function() {
-        audioManager.playButtonClick();
-        backFromInteractiveTutorialMenu();
-    });
+    // Botón volver desde tutorial interactivo (defensivo por si no existe)
+    const backFromInteractiveTutorial = document.getElementById('backFromInteractiveTutorial');
+    if (backFromInteractiveTutorial) {
+        backFromInteractiveTutorial.addEventListener('click', function() {
+            audioManager.playButtonClick();
+            backFromInteractiveTutorialMenu();
+        });
+    }
     
     // (El botón FINALIZAR ha sido eliminado)
     
@@ -9360,6 +9473,9 @@ function loadSettings() {
         
         console.log('Configuración cargada:', gameSettings);
     }
+
+    // Asegurar estado de audio aplicado siempre tras carga (aunque no haya guardado previo)
+    try { updateSoundEffects(); } catch(_) {}
 }
 
 // Función para inicializar las pestañas de puntuación
@@ -9593,11 +9709,24 @@ if (playerNameInput) {
 
 // El tema se guarda automáticamente en toggleTheme()
 
-// Animación adicional para las estrellas
+// Animación adicional para las estrellas (con guardas y limpieza)
+let starIntervalId = null;
 function createRandomStars() {
     const backgroundAnimation = document.querySelector('.background-animation');
+    if (!backgroundAnimation) {
+        // No hay contenedor, no iniciar nada
+        return;
+    }
+    // Evitar múltiples intervalos
+    if (starIntervalId) clearInterval(starIntervalId);
     
-    setInterval(() => {
+    starIntervalId = setInterval(() => {
+        // Si el contenedor ya no existe en el DOM, limpiar y salir
+        if (!document.body.contains(backgroundAnimation)) {
+            clearInterval(starIntervalId);
+            starIntervalId = null;
+            return;
+        }
         const star = document.createElement('div');
         star.className = 'star';
         star.style.left = Math.random() * 100 + '%';
@@ -9615,8 +9744,18 @@ function createRandomStars() {
     }, 2000);
 }
 
-// Iniciar animación de estrellas
+// Iniciar animación de estrellas si existe el contenedor
 setTimeout(createRandomStars, 1000);
+
+// Limpieza adicional al cambiar visibilidad de la pestaña
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden && starIntervalId) {
+        clearInterval(starIntervalId);
+        starIntervalId = null;
+    } else if (!document.hidden && !starIntervalId) {
+        createRandomStars();
+    }
+});
 
 // ===== TABLERO DE PREVISUALIZACIÓN INDEPENDIENTE =====
 
